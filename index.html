@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <title>Pop Portrait</title>
+  <link rel="icon" type="image/svg+xml" href="P.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Arvo:ital,wght@0,400;0,700;1,400;1,700&family=Instrument+Serif:ital@0;1&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+  <style>
+	body, h1, h2, p {
+		margin: 0;
+		padding: 0;
+	}
+
+    body {
+	  background: black;
+	  margin: 0;
+	  padding: 40px;
+	  box-sizing: border-box;
+	  width: 100%;
+	  height: 100dvh;
+	  overflow: hidden;
+
+	  font-family: "Instrument Serif", serif;
+	  color: white;
+	  transition: background-color 0.4s ease, color 0.4s ease;
+	}
+
+    canvas {
+	  display: block;
+	  max-width: 55vw;
+	  width: auto;
+	  height: auto;
+	  margin: 24px auto;
+	  max-height: 80dvh;
+	  cursor: pointer;
+	}
+    label { 
+    	display: block; 
+    	margin: 16px 0; 
+    }
+    input[type="range"] { 
+    	width: 200px; 
+    	accent-color: whitesmoke;
+    }
+
+    .title {
+	  display: flex;
+	  justify-content: space-between;
+	  align-items: center;
+	}
+
+	.title h1, .title h2 {
+	  margin: 0;
+	  font-size: 48px;
+	  font-weight: 400;
+	}
+	.sourcePhoto {
+	  display: none;
+	}
+
+	.gallery {
+	  position: fixed;
+	  top: 50%;
+	  left: 50%;
+	  transform: translate(-50%, -50%);
+
+	  width: 90vw;
+	  display: flex;
+	  align-items: center;
+	  justify-content: center;
+	  gap: 40px;
+	}
+
+	.gallery button {
+	  background: none;
+	  border: none;
+	  color: white;
+	  font-size: 32px;
+	  cursor: pointer;
+	  position: absolute;
+	  top: 50%;
+	  transform: translateY(-50%);
+	}
+
+	#prev {
+	  left: 8vw;
+	}
+
+	#next {
+	  right: 8vw;
+	}
+	
+	.controls {
+	  position: fixed;
+	  top: 140px;
+	  right: 40px;
+	  width: 380px;
+	}
+
+	.controls label {
+	  display: flex;
+	  align-items: center;
+	  justify-content: flex-end;
+	  gap: 12px;
+	  white-space: nowrap;
+	  font-family: "Lato", sans-serif;
+	}
+
+	.photoArea {
+	  position: relative;
+	  display: flex;
+	  flex-direction: column;
+	  align-items: center;
+	}
+
+	#caption {
+	  position: absolute;
+	  top: 100%;
+	  left: 50%;
+	  transform: translateX(-50%);
+	  margin: 0;
+	  white-space: nowrap;
+	  font-family: "Lato", sans-serif;
+	  font-size: 18px;
+	}
+
+	#originalToggle {
+	  position: fixed;
+	  right: 40px;
+	  bottom: 40px;
+	  width: 60px;
+	  height: 60px;
+	  border: 1px solid white;
+	  border-radius: 50%;
+	  background: transparent;
+	  color: white;
+	  cursor: pointer;
+	  display: flex;
+	  align-items: center;
+	  justify-content: center;
+	  padding: 0;
+	  font-family: "Instrument Serif", serif;
+	  font-size: 22px;
+	}
+
+	#originalToggle.is-pop {
+	  background: white;
+	  color: black;
+	}
+
+	body.is-pop {
+	  background: white;
+	  color: black;
+	}
+
+	body.is-pop .gallery button {
+	  color: black;
+	}
+
+	body.is-pop #originalToggle {
+	  border-color: black;
+	}
+
+	#toggle {
+	  cursor: pointer;
+	}
+
+	#toggleText {
+	  position: fixed;
+	  top: 110px;
+	  left: 40px;
+	  z-index: 2;
+	  font-family: "Instrument Serif", serif;
+	  font-size: 18px;
+	  line-height: 1.6;
+	}
+  </style>
+</head>
+
+<body>
+	<header class="title">
+		<h1 id="toggle">ALVERT WATSON</h1>
+  		<h2>POP PORTRAIT</h2>
+	</header>
+	<p id="toggleText" hidden>
+	  A legendary fashion and portrait photographer known for <br>shooting over 100 Vogue covers and capturing iconic portraits of <br>figures like Steve Jobs and Alfred Hitchcock. <br>
+	</p>
+	<img id="sourcePhoto" class="sourcePhoto" src="jack.jpg">
+	<img class="sourcePhoto" src="hitchcock.jpg">
+	<img class="sourcePhoto" src="dogg.jpeg">
+	<img class="sourcePhoto" src="penn.jpg">
+	
+  	<div class="gallery">
+	  <button id="prev" type="button">◀</button>
+	  <div class="photoArea">
+		  <canvas id="result"></canvas>
+		  <p id="caption" hidden></p>
+	  </div>
+	  <button id="next" type="button">▶</button>
+	</div>
+	<button id="originalToggle" type="button">RAW</button>
+ 	<div class="controls">
+	  <label>
+	    Shadow
+	    <input type="range" id="shadowSlider" min="0" max="360" value="110">
+	  </label>
+	  <label>
+	    Light
+	    <input type="range" id="lightSlider" min="0" max="360" value="330">
+	  </label>
+	  <label>
+	    Boundary
+	    <input type="range" id="brightnessSlider" min="100" max="250" value="145">
+	  </label>
+	</div>
+
+  <script>
+    const canvas = document.getElementById("result");
+    const ctx = canvas.getContext("2d");
+    const shadowSlider = document.getElementById("shadowSlider");
+    const lightSlider = document.getElementById("lightSlider");
+    const brightnessSlider = document.getElementById("brightnessSlider");
+
+    let original = null;
+    const originalToggle = document.getElementById("originalToggle");
+	let showingOriginal = false;
+
+    function hueToRgb(hue) {
+      const k = n => (n + hue / 30) % 12;
+      const channel = n =>
+        Math.round(255 * (0.5 - 0.5 *
+          Math.max(-1, Math.min(k(n) - 3, 9 - k(n), 1))));
+      return [channel(0), channel(8), channel(4)];
+    }
+
+    const photos = document.querySelectorAll(".sourcePhoto");
+    const caption = document.getElementById("caption");
+	const captions = [
+	  "JACK NICHOLSON III, NEW YORK CITY, 1998.",
+	  "Alfred Hitchcock, Los Angeles. 1973.",
+	  "Snoop Dogg, Los Angeles, 1999.",
+	  "Sean Penn, Malibu, 1995."
+	];
+
+	const prev = document.getElementById("prev");
+	const next = document.getElementById("next");
+
+	let currentIndex = 0;
+
+	function showPhoto() {
+	  const img = photos[currentIndex];
+	  showingOriginal = false;
+	  originalToggle.textContent = "RAW";
+	  originalToggle.classList.remove("is-pop");
+	  caption.textContent = captions[currentIndex];
+	  caption.hidden = true;
+
+	  document.body.classList.remove("is-pop");
+
+	  const scale = Math.min(1, 800 / Math.max(img.width, img.height));
+	canvas.width = Math.round(img.width * scale);
+	canvas.height = Math.round(img.height * scale);
+
+	  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+	  original = ctx.getImageData(0, 0, canvas.width, canvas.height);
+	  recolor();
+	}
+
+	window.onload = showPhoto;
+
+	next.onclick = function () {
+	  currentIndex = (currentIndex + 1) % photos.length;
+	  showPhoto();
+	};
+
+	prev.onclick = function () {
+	  currentIndex = (currentIndex - 1 + photos.length) % photos.length;
+	  showPhoto();
+	};
+
+    function recolor() {
+ 	if (!original || showingOriginal) return;
+
+
+      const output = ctx.createImageData(canvas.width, canvas.height);
+      const threshold = Number(brightnessSlider.value);
+      const shadowColor = hueToRgb(Number(shadowSlider.value));
+      const lightColor = hueToRgb(Number(lightSlider.value));
+
+      for (let i = 0; i < original.data.length; i += 4) {
+        const r = original.data[i];
+        const g = original.data[i + 1];
+        const b = original.data[i + 2];
+        const brightness = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+
+        let color;
+
+        if (brightness < threshold * 0.45) {
+          color = [20, 15, 20];
+        } else if (brightness < threshold) {
+          color = shadowColor;
+        } else {
+          color = lightColor;
+        }
+
+        output.data[i] = color[0];
+        output.data[i + 1] = color[1];
+        output.data[i + 2] = color[2];
+        output.data[i + 3] = original.data[i + 3];
+      }
+
+      ctx.putImageData(output, 0, 0);
+    }
+
+    shadowSlider.oninput = recolor;
+    lightSlider.oninput = recolor;
+    brightnessSlider.oninput = recolor;
+
+    canvas.onclick = function () {
+	caption.hidden = !caption.hidden;
+	};
+
+	originalToggle.onclick = function () {
+	  if (!original) return;
+
+	  showingOriginal = !showingOriginal;
+	  originalToggle.classList.toggle("is-pop", showingOriginal);
+	  document.body.classList.toggle("is-pop", showingOriginal);
+
+	  if (showingOriginal) {
+	    ctx.putImageData(original, 0, 0);
+	    originalToggle.textContent = "POP";
+	  } else {
+	    recolor();
+	    originalToggle.textContent = "RAW";
+	  }
+	};
+	const toggle = document.getElementById("toggle");
+	const toggleText = document.getElementById("toggleText");
+
+	toggle.onclick = function () {
+    toggleText.hidden = !toggleText.hidden;
+	};	
+  </script>
+</body>
+</html>
