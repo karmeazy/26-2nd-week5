@@ -40,142 +40,165 @@
     	display: block; 
     	margin: 16px 0; 
     }
-    input[type="range"] { 
-    	width: 200px; 
-    	accent-color: whitesmoke;
-    }
+  	input[type="range"] {
+		  width: 200px;
+		  -webkit-appearance: none;
+		  appearance: none;
+		  background: transparent;
+		}
+
+		input[type="range"]::-webkit-slider-runnable-track {
+		  background: lightgray;
+		  height: 7px;
+		  border-radius: 4px;
+		}
+
+		input[type="range"]::-webkit-slider-thumb {
+		  -webkit-appearance: none;
+		  appearance: none;
+		  width: 16px;
+		  height: 16px;
+		  margin-top: -4.5px;
+		  border: 0;
+		  border-radius: 50%;
+		  background: whitesmoke;
+		}
+
+		body.is-pop input[type="range"]::-webkit-slider-thumb {
+		  background: darkgray;
+		}
 
     .title {
-	  display: flex;
-	  justify-content: space-between;
-	  align-items: center;
-	}
+		  display: flex;
+		  justify-content: space-between;
+		  align-items: center;
+		}
 
-	.title h1, .title h2 {
-	  margin: 0;
-	  font-size: 48px;
-	  font-weight: 400;
-	}
-	.sourcePhoto {
-	  display: none;
-	}
+		.title h1, .title h2 {
+		  margin: 0;
+		  font-size: 48px;
+		  font-weight: 400;
+		}
+		.sourcePhoto {
+		  display: none;
+		}
 
-	.gallery {
-	  position: fixed;
-	  top: 50%;
-	  left: 50%;
-	  transform: translate(-50%, -50%);
+		.gallery {
+		  position: fixed;
+		  top: 50%;
+		  left: 50%;
+		  transform: translate(-50%, -50%);
 
-	  width: 90vw;
-	  display: flex;
-	  align-items: center;
-	  justify-content: center;
-	  gap: 40px;
-	}
+		  width: 90vw;
+		  display: flex;
+		  align-items: center;
+		  justify-content: center;
+		  gap: 40px;
+		}
 
-	.gallery button {
-	  background: none;
-	  border: none;
-	  color: white;
-	  font-size: 32px;
-	  cursor: pointer;
-	  position: absolute;
-	  top: 50%;
-	  transform: translateY(-50%);
-	}
+		.gallery button {
+		  background: none;
+		  border: none;
+		  color: white;
+		  font-size: 32px;
+		  cursor: pointer;
+		  position: absolute;
+		  top: 50%;
+		  transform: translateY(-50%);
+		}
 
-	#prev {
-	  left: 8vw;
-	}
+		#prev {
+		  left: 8vw;
+		}
 
-	#next {
-	  right: 8vw;
-	}
-	
-	.controls {
-	  position: fixed;
-	  top: 140px;
-	  right: 40px;
-	  width: 380px;
-	}
+		#next {
+		  right: 8vw;
+		}
+		
+		.controls {
+		  position: fixed;
+		  top: 140px;
+		  right: 40px;
+		  width: 380px;
+		}
 
-	.controls label {
-	  display: flex;
-	  align-items: center;
-	  justify-content: flex-end;
-	  gap: 12px;
-	  white-space: nowrap;
-	  font-family: "Lato", sans-serif;
-	}
+		.controls label {
+		  display: flex;
+		  align-items: center;
+		  justify-content: flex-end;
+		  gap: 12px;
+		  white-space: nowrap;
+		  font-family: "Lato", sans-serif;
+		}
 
-	.photoArea {
-	  position: relative;
-	  display: flex;
-	  flex-direction: column;
-	  align-items: center;
-	}
+		.photoArea {
+		  position: relative;
+		  display: flex;
+		  flex-direction: column;
+		  align-items: center;
+		}
 
-	#caption {
-	  position: absolute;
-	  top: 100%;
-	  left: 50%;
-	  transform: translateX(-50%);
-	  margin: 0;
-	  white-space: nowrap;
-	  font-family: "Lato", sans-serif;
-	  font-size: 18px;
-	}
+		#caption {
+		  position: absolute;
+		  top: 100%;
+		  left: 50%;
+		  transform: translateX(-50%);
+		  margin: 0;
+		  white-space: nowrap;
+		  font-family: "Lato", sans-serif;
+		  font-size: 18px;
+		}
 
-	#originalToggle {
-	  position: fixed;
-	  right: 40px;
-	  bottom: 40px;
-	  width: 60px;
-	  height: 60px;
-	  border: 1px solid white;
-	  border-radius: 50%;
-	  background: transparent;
-	  color: white;
-	  cursor: pointer;
-	  display: flex;
-	  align-items: center;
-	  justify-content: center;
-	  padding: 0;
-	  font-family: "Instrument Serif", serif;
-	  font-size: 22px;
-	}
+		#originalToggle {
+		  position: fixed;
+		  right: 40px;
+		  bottom: 40px;
+		  width: 60px;
+		  height: 60px;
+		  border: 1px solid white;
+		  border-radius: 50%;
+		  background: transparent;
+		  color: white;
+		  cursor: pointer;
+		  display: flex;
+		  align-items: center;
+		  justify-content: center;
+		  padding: 0;
+		  font-family: "Instrument Serif", serif;
+		  font-size: 22px;
+		}
 
-	#originalToggle.is-pop {
-	  background: white;
-	  color: black;
-	}
+		#originalToggle.is-pop {
+		  background: white;
+		  color: black;
+		}
 
-	body.is-pop {
-	  background: white;
-	  color: black;
-	}
+		body.is-pop {
+		  background: white;
+		  color: black;
+		}
 
-	body.is-pop .gallery button {
-	  color: black;
-	}
+		body.is-pop .gallery button {
+		  color: black;
+		}
 
-	body.is-pop #originalToggle {
-	  border-color: black;
-	}
+		body.is-pop #originalToggle {
+		  border-color: black;
+		}
 
-	#toggle {
-	  cursor: pointer;
-	}
+		#toggle {
+		  cursor: pointer;
+		}
 
-	#toggleText {
-	  position: fixed;
-	  top: 110px;
-	  left: 40px;
-	  z-index: 2;
-	  font-family: "Instrument Serif", serif;
-	  font-size: 18px;
-	  line-height: 1.6;
-	}
+		#toggleText {
+		  position: fixed;
+		  top: 110px;
+		  left: 40px;
+		  z-index: 2;
+		  font-family: "Instrument Serif", serif;
+		  font-size: 18px;
+		  line-height: 1.6;
+		}
   </style>
 </head>
 
